@@ -1,3 +1,4 @@
+#09.10 - работа по pack,place,grid
 from tkinter import *
 
 
@@ -20,7 +21,13 @@ def tik():
 root = Tk()
 root.geometry("800x600")
 root.title("Программа генерации логина и пароля")
-root.resizable(0, 0)
+#root.resizable(0, 0)
+
+for c in range(3):
+    root.columnconfigure(index=c, weight=1)
+for r in range(7):
+    root.rowconfigure(index=r, weight=1)
+
 email_label = Label(text="Введите адрес электронной почты",
                     font="Arial 16")
 email_entry = Entry(font="Arial 16")
@@ -34,18 +41,20 @@ sname_entry = Entry(font="Arial 16")
 button = Button(text="Жмяк", command=tik, font="Arial 16")
 
 res_label = Label(text="Логин: \nПароль:", font="Arial 16")
-listbox = Listbox(width=65, font="Arial 16")
-email_label.place(x=0, y=0)
-email_entry.place(x=400, y=0)
-fname_label.place(x=0, y=30)
-fname_entry.place(x=400, y=30)
-name_label.place(x=0, y=60)
-name_entry.place(x=400, y=60)
-sname_label.place(x=0, y=90)
-sname_entry.place(x=400, y=90)
-button.place(x=350, y=125)
-res_label.place(x=0, y=155)
-listbox.place(x=10, y=220)
+listbox = Listbox(width=35, font="Arial 16")
+email_label.grid(row=0, column=0)
+email_entry.grid(row=0, column=1)
+listbox.grid(row=0, column=2, rowspan=5, sticky=NSEW)
+fname_label.grid(row=1, column=0)
+fname_entry.grid(row=1, column=1)
+name_label.grid(row=2, column=0)
+name_entry.grid(row=2, column=1)
+fname_label.grid(row=3, column=0)
+fname_entry.grid(row=3, column=1)
+sname_label.grid(row=4, column=0)
+sname_entry.grid(row=4, column=1)
+button.grid(row=5, column=0, columnspan=2)
+res_label.grid(row=6, column=0)
 '''
 ui_elements = [email_label, email_entry,
                fname_label, fname_entry,
