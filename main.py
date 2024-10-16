@@ -1,68 +1,57 @@
-#09.10 - работа по pack,place,grid
 from tkinter import *
 
 
-def tik():
-    user_input = email_entry.get()
-    dog_pos = user_input.find("@")
-    if dog_pos > - 1:
-        login = user_input[0:dog_pos]
-        #print(login)
-        fam = fname_entry.get()
-        name = name_entry.get()
-        otch = sname_entry.get()
-        password = (fam[0] + fam[len(fam) - 1] +
-                    name[0] + name[len(name) - 1] +
-                    otch[0] + otch[len(otch) - 1])
-        res_label["text"] = f"Логин: {login}\nПароль: {password}"
-        listbox.insert(0, f"Логин: {login} Пароль: {password}")
+def int_check(_user_input):
+    tupoy = True
+    while tupoy:
+        try:
+            tupoy = False
+            tmp = int(_user_input)
+            return tmp
+        except:
+            print("нужны чиселки")
+            debug1 = input("Введите значение")
+            tupoy = True
+            return int_check(debug1)
 
 
-root = Tk()
-root.geometry("800x600")
-root.title("Программа генерации логина и пароля")
-#root.resizable(0, 0)
+root = Tk()  # создаем корневой объект - окно
+root.title("Список покупок")  # устанавливаем заголовок окна
+root.geometry("500x400")  # устанавливаем размеры окна
+listbox = Listbox(root, font="Arial 16", width=40)
+name_entry = Entry(root, font="Arial 16", width=40)
+frame = Frame(root)
+quantity_entry = Entry(frame, font="Arial 16", width=20)
+price_entry = Entry(frame, font="Arial 16", width=20)
+btn = Button(root, font="Arial 16", text="+", width=40)
 
-for c in range(3):
-    root.columnconfigure(index=c, weight=1)
-for r in range(7):
-    root.rowconfigure(index=r, weight=1)
 
-email_label = Label(text="Введите адрес электронной почты",
-                    font="Arial 16")
-email_entry = Entry(font="Arial 16")
-fname_label = Label(text="Введите фамилию", font="Arial 16")
-fname_entry = Entry(font="Arial 16")
-name_label = Label(text="Введите имя", font="Arial 16")
-name_entry = Entry(font="Arial 16")
-sname_label = Label(text="Введите отчество", font="Arial 16")
-sname_entry = Entry(font="Arial 16")
+names = []
+quantities = []
+prices = []
+go = True
+while go:
+    name = input("Введите название продукта: ")
+    quantity = int_check(input("Введите количество: "))
+    price = int_check(input("Введите цену:"))
 
-button = Button(text="Жмяк", command=tik, font="Arial 16")
+    names.append(name)
+    quantities.append(quantity)
+    prices.append(price)
+    for i in range(0, len(names)):
+        print(names[i], quantities[i], prices[i])
+    print("Итоговая стоимость:", sum(prices))
+    user_input = input("Еще? [Д]а/[Н]ет ")
+    if user_input == "Д":
+        go = True
+    else:
+        go = False
 
-res_label = Label(text="Логин: \nПароль:", font="Arial 16")
-listbox = Listbox(width=35, font="Arial 16")
-email_label.grid(row=0, column=0)
-email_entry.grid(row=0, column=1)
-listbox.grid(row=0, column=2, rowspan=5, sticky=NSEW)
-fname_label.grid(row=1, column=0)
-fname_entry.grid(row=1, column=1)
-name_label.grid(row=2, column=0)
-name_entry.grid(row=2, column=1)
-fname_label.grid(row=3, column=0)
-fname_entry.grid(row=3, column=1)
-sname_label.grid(row=4, column=0)
-sname_entry.grid(row=4, column=1)
-button.grid(row=5, column=0, columnspan=2)
-res_label.grid(row=6, column=0)
-'''
-ui_elements = [email_label, email_entry,
-               fname_label, fname_entry,
-               name_label, name_entry,
-               sname_label,
-               sname_entry, button,
-               res_label, listbox]
-for item in ui_elements:
-    item.pack(anchor=W, padx=10, pady=2, side=BOTTOM)
-'''
+listbox.pack()
+name_entry.pack()
+frame.pack()
+quantity_entry.pack(side=LEFT)
+price_entry.pack()
+btn.pack()
+
 root.mainloop()
